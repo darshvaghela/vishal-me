@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Html, Image } from "@react-three/drei";
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { photos, wall, type Photo } from "@/data/site";
 
@@ -81,7 +81,7 @@ function Card({
       {/* eslint-disable-next-line jsx-a11y/alt-text -- three.js mesh, not an <img> */}
       <Image
         ref={ref as never}
-        url={`/images/thumbs/${item.photo.src}.jpg`}
+        url={`/images/wall/${item.photo.src}.webp`}
         scale={[item.h * aspect, item.h]}
         transparent
         radius={0.06}
@@ -143,12 +143,43 @@ function Scene() {
 }
 
 export default function PhotoWall() {
+  const wrap = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [shown, setShown] = useState(false);
+
+  // Start the 3D scene only once the page is idle, so text and buttons are interactive first.
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(() => setReady(true), { timeout: 1200 });
+    else setTimeout(() => setReady(true), 400);
+  }, []);
+
+  // Stop rendering entirely while the hero is off-screen.
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting), { rootMargin: "100px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <Canvas camera={{ position: [0, 0, 6], fov: 55 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
-      <fog attach="fog" args={["#07080b", 8, 22]} />
-      <Suspense fallback={null}>
-        <Scene />
-      </Suspense>
-    </Canvas>
+    <div ref={wrap} className="h-full w-full transition-opacity duration-1000" style={{ opacity: shown ? 1 : 0 }}>
+      {ready && (
+        <Canvas
+          camera={{ position: [0, 0, 6], fov: 55 }}
+          dpr={[1, 1.5]}
+          frameloop={visible ? "always" : "never"}
+          gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+          onCreated={() => setShown(true)}
+        >
+          <fog attach="fog" args={["#07080b", 8, 22]} />
+          <Suspense fallback={null}>
+            <Scene />
+          </Suspense>
+        </Canvas>
+      )}
+    </div>
   );
 }

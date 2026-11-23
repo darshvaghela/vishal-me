@@ -27,7 +27,7 @@ export default function Nav() {
     >
       <nav
         className={`mx-auto flex h-16 max-w-6xl items-center justify-between rounded-full border px-3 pl-3 transition-all duration-500 ${
-          scrolled ? "border-white/10 bg-black/55 backdrop-blur-xl" : "border-transparent"
+          scrolled ? "border-white/10 bg-[#0b0c10]/90" : "border-transparent"
         }`}
       >
         <ScrollLink to="top" className="flex items-center gap-3">

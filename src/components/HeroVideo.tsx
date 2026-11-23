@@ -1,10 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function HeroVideo() {
   const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) void v.play().catch(() => {});
+      else v.pause();
+    }, { rootMargin: "200px" });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
 
   const toggle = () => {
     const v = ref.current;
@@ -24,11 +35,10 @@ export default function HeroVideo() {
         className="h-full w-full object-cover"
         src="/video/superhosts.mp4"
         poster="/video/superhosts-poster.jpg"
-        autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="none"
         aria-label="Superhosts event recap video"
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />

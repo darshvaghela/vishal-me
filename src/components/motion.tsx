@@ -35,8 +35,8 @@ export function FadeUp({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -12% 0px" }}
       transition={{ duration: 0.9, delay, ease }}
     >
@@ -45,7 +45,7 @@ export function FadeUp({
   );
 }
 
-/** Headline that rises in word by word. Wrap words in *stars* to highlight them. */
+/** Headline that rises in word by word (pure CSS, paints without waiting for JS). Wrap words in *stars* to highlight. */
 export function WordReveal({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
   const words = text.split(" ");
   return (
@@ -55,15 +55,10 @@ export function WordReveal({ text, className = "", delay = 0 }: { text: string; 
         const clean = w.replace(/\*/g, "");
         return (
           <span key={i} className="inline-block overflow-hidden pb-[0.12em] align-bottom" aria-hidden>
-            <motion.span
-              className={`inline-block ${hl ? "text-gradient italic" : ""}`}
-              initial={{ y: "110%", rotate: 4 }}
-              animate={{ y: "0%", rotate: 0 }}
-              transition={{ duration: 1, delay: delay + i * 0.06, ease }}
-            >
+            <span className={`word-up ${hl ? "text-gradient italic" : ""}`} style={{ animationDelay: `${delay + i * 0.05}s` }}>
               {clean}
-              {i < words.length - 1 ? " " : ""}
-            </motion.span>
+              {i < words.length - 1 ? "\u00a0" : ""}
+            </span>
           </span>
         );
       })}

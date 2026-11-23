@@ -5,6 +5,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { photos, type Photo } from "@/data/site";
+import blur from "@/data/blur.json";
+
+const blurOf = (src: string) => (blur as Record<string, string>)[src];
 import { Tilt } from "./motion";
 
 export default function Gallery() {
@@ -56,6 +59,8 @@ export default function Gallery() {
                   width={p.w}
                   height={p.h}
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  placeholder={blurOf(p.src) ? "blur" : "empty"}
+                  blurDataURL={blurOf(p.src)}
                   className="h-auto w-full brightness-[0.88] transition duration-700 ease-out group-hover:scale-[1.04] group-hover:brightness-100"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/0 to-black/0" />
@@ -117,6 +122,8 @@ export default function Gallery() {
                       alt={`${current.title}, ${current.place}`}
                       fill
                       sizes="100vw"
+                      placeholder={blurOf(current.src) ? "blur" : "empty"}
+                      blurDataURL={blurOf(current.src)}
                       className="object-contain"
                       priority
                       onClick={(e) => e.stopPropagation()}

@@ -12,7 +12,13 @@ function Kicker({ children }: { children: React.ReactNode }) {
 }
 
 function Glow({ className }: { className: string }) {
-  return <div aria-hidden className={`pointer-events-none absolute rounded-full blur-[120px] ${className}`} />;
+  return (
+    <div
+      aria-hidden
+      className={`pointer-events-none absolute rounded-full ${className}`}
+      style={{ background: "radial-gradient(closest-side, currentColor, transparent)" }}
+    />
+  );
 }
 
 export default function Home() {
@@ -23,8 +29,8 @@ export default function Home() {
       <main id="top" className="overflow-x-clip">
         {/* ───────── Hero ───────── */}
         <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden">
-          <Glow className="-left-40 top-10 -z-10 h-[420px] w-[420px] bg-violet/25" />
-          <Glow className="-right-20 bottom-0 -z-10 h-[380px] w-[380px] bg-green/15" />
+          <Glow className="-left-40 top-10 -z-10 h-[420px] w-[420px] text-violet/25" />
+          <Glow className="-right-20 bottom-0 -z-10 h-[380px] w-[380px] text-green/15" />
 
           {/* 3D photo wall */}
           <FadeUp delay={0.3} y={0} className="absolute inset-0 z-0">
@@ -37,18 +43,18 @@ export default function Home() {
           <div className="pointer-events-none relative z-10 mx-auto w-full max-w-6xl px-4 pb-20 pt-28 sm:px-6 lg:pt-24">
             <div className="pointer-events-auto max-w-2xl">
               <h1 className="font-serif text-[3.1rem] leading-[0.98] tracking-[-0.015em] sm:text-7xl lg:text-[5.3rem]">
-                <WordReveal text="I build the rooms where *Solana* *builders* meet." delay={0.25} />
+                <WordReveal text="I build the rooms where *Solana* *builders* meet." delay={0.05} />
               </h1>
 
-              <FadeUp delay={0.8}>
+              <div className="rise" style={{ animationDelay: "0.25s" }}>
                 <p className="mt-7 max-w-xl text-lg leading-relaxed text-fg-2">
                   Three years running Solana community programs. I led operations for Superteam&apos;s{" "}
                   <span className="text-fg">Superhosts</span> program, whose event formats local hosts ran from London to the
                   Gold Coast, and I host events in person in Ahmedabad.
                 </p>
-              </FadeUp>
+              </div>
 
-              <FadeUp delay={1}>
+              <div className="rise" style={{ animationDelay: "0.4s" }}>
                 <div className="mt-9 flex flex-wrap items-center gap-3">
                   <Magnetic>
                     <a
@@ -68,7 +74,7 @@ export default function Home() {
                     </ScrollLink>
                   </Magnetic>
                 </div>
-              </FadeUp>
+              </div>
             </div>
 
           </div>
@@ -105,7 +111,7 @@ export default function Home() {
 
         {/* ───────── Superhosts ───────── */}
         <section id="superhosts" className="relative isolate border-y border-line bg-bg-2/60">
-          <Glow className="left-1/3 top-20 -z-10 h-[500px] w-[500px] bg-violet/10" />
+          <Glow className="left-1/3 top-20 -z-10 h-[500px] w-[500px] text-violet/10" />
           <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:py-32">
             <FadeUp>
               <Kicker>Superhosts</Kicker>
@@ -258,7 +264,7 @@ export default function Home() {
 
         {/* ───────── Events ───────── */}
         <section id="events" className="relative isolate border-t border-line bg-bg-2/60">
-          <Glow className="right-0 top-40 -z-10 h-[460px] w-[460px] bg-green/10" />
+          <Glow className="right-0 top-40 -z-10 h-[460px] w-[460px] text-green/10" />
           <div className="mx-auto max-w-6xl px-4 py-24 sm:px-6 lg:py-32">
             <FadeUp className="mb-12">
               <div>
