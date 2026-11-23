@@ -4,7 +4,7 @@ import HeroVideo from "@/components/HeroVideo";
 import LoopVideo from "@/components/LoopVideo";
 import Gallery from "@/components/Gallery";
 import ScrollLink from "@/components/ScrollLink";
-import { CountUp, FadeUp, PhotoWall, Magnetic, ScrollLine, ScrollProgress, Tilt, WordReveal } from "@/components/motion";
+import { CountUp, FadeUp, PhotoWall, Magnetic, ScrollLine, Tilt, WordReveal } from "@/components/motion";
 import { profile, stats, formats, experience, earlier, partners, sideProjects, testimonial } from "@/data/site";
 
 function Kicker({ children }: { children: React.ReactNode }) {
@@ -24,7 +24,6 @@ function Glow({ className }: { className: string }) {
 export default function Home() {
   return (
     <>
-      <ScrollProgress />
       <Nav />
       <main id="top" className="overflow-x-clip">
         {/* ───────── Hero ───────── */}
