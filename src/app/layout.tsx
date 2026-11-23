@@ -16,7 +16,12 @@ const description =
   "I build the rooms where Solana builders meet. Ex-Superteam global events (Superhosts), Solana Foundation DevRel, Solana Tour co-founder. Based in Ahmedabad.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_PROJECT_PRODUCTION_URL
+        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+        : "http://localhost:3000"),
+  ),
   title,
   description,
   openGraph: {
